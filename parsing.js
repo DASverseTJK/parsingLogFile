@@ -88,9 +88,44 @@
  *                   - Deleted multiple methods to one single method, but can be divided to multiple methods.
  *                   - Filtering Start, uid, wid, validator, end are done with small dummy log file since our file is way to big
  * 
- * - April 25, 2023: - Filtering words is done.
+ * - April 25, 2023: - Filtering words is done. (All the filtering & gathering is done)
+ *                              {
+                                  start: "  'S ===================== 3001. POST /mpocket/wallet/signup ====================='",
+                                  uid: "'1000008'",
+                                  wid: '995',
+                                  words: "  'Pants,Credit,Incredible,Comoro,Analyst,copy,Music,Planner,XML,AGP,hacking,Tasty'",
+                                  validator: 'Pants,Credit',
+                                  end: "  'E ===================== 3001. POST  /mpocket/wallet/signup ====================='"
+                                }
  *                   - probably working on exception to handle exception handling.
  *                   - Creating trigger to insert filtered data into DB
+ *                   - COULDN'T FIGURE OUT WHY LAVENDER IS NOT GETTING FILTERRED OUT... ( ' won't come out )
+ *                       - if I filter "" out from output, it will have error when program puts data into DB
+ * 
+ * - April 26, 2023: - Filtering words is done: filterNonAlphabetFromWordList function is added and being used in words to make code cleaner.
+ *                   - fixed validate error: not accepting anything
+ *                      - because words section was catching 'words' before 'validate' and words if statement checks next line, validate's words list couldn't get anything from next line
+ *                        So, words if statement is changed from 'words' to 'G] words [' to only catch what belongs to words.
+ *                   - For list of words and valiate, some of them were wrapped as array such as [ '{"words":["Pants","Tasty"]}' ], so gave exception
+ *                   - There were come values without any values from words section and it was same line as words because they didn't need to go next line.
+ *                      exception: did not save word list without values [ '{"words":[""]}' ]
+ *                   - Appended succeed blocks to parsedFile.log ==> 216 blocks total 
+ * 
+ *                   - Problem : blocks.length is 216 and 216 blocks are being saved in file, but 206 values are in DB.
+ *                      - File : 216
+ *                      - DB   : 206, no duplication of uid, wid, words, validator
+ *                      - Not sure : maybe since uid is unique, and IGNORE is being used, it filtered out duplicated uid ??
+ *                          -- need to check
+ *  - April 27, 2023: - Added process output to see program is actually working since log file is big
+ *                    - firstVal and lastVal is added in startPoint
+ *                    - Validator : - two words     : checking validator list are two words                                                       ==> 216 to 216, no change
+ *                                  - list matching : checking two words of validator list is matching with first and last letter of word list    ==> 216 to 216, 1 change
+ *                    - Word      : - Set first letter to firstVal and set last letter to lastVal
+ *                                  - 12 length     : Check if the length of word list is 12                                                      ==> 216 to 216, no change
+ *                    - WID       : - Had error with getting WID, parsedFile.log ==> has wrong WID,    parsedFIle_v1.log is correct information of WID ==> 216 to 208, reduced
+ *                    - parsedFile230.log is only log with uid values in to find if there is any missing inforamtion.
+ *                    - Fixed undefined error ==> I thought uid value was 'undefined' but it was ==> '\'undefined\''                              (undefined ==> 'undefined')
+ 
  */
 
 
@@ -99,7 +134,7 @@ const fs = require('fs');
 const mysql = require('mysql');
 
 
-const fileName = 'dum.log';
+const fileName = 'metapocket-dev-out.log';
 const url = '/mpocket/wallet/signup';
 const fileNameOG = 'metapocket-dev-out.log';
 const startPoint = "  \'S";
@@ -113,6 +148,7 @@ const con = mysql.createConnection({
   password: 'testpw',
   database: 'parsing'  
 });
+
 
 /**
  * It opens file and filters out
@@ -132,24 +168,70 @@ function validateFile(filename) {
     const blocks = [];
     let block = null;
 
+    // function filters out the filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
+    function filterNonAlphabetFromWordList(t) {
+      // console.log("qqqqqqqqq " + t);
+      // Trying to filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
+      for (let i = 0; i < t.length; i++) {
+        block.words = t.join(',');
+
+        // if word is non-alphabetical
+        if (!(/^[a-zA-Z]+$/.test(t[i]))) {
+          // console.log(!(/^[a-zA-Z]+$/.test(t[i])));
+          // console.log(t[i]);
+          block.words = null;
+          // if program find any non-alphabetical functions, it breaks out the loop because program is not allowing a single non-alphabetical word.
+          break;
+        }
+      }
+    }
+
+
+    function filterNonAlphabetFromValidator(t) {
+      // console.log("qqqqqqqqq " + t);
+      // Trying to filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
+      for (let i = 0; i < t.length; i++) {
+        // console.log(block.validator);
+        block.validator = t.join(',');
+
+        // if word is non-alphabetical
+        if (!(/^[a-zA-Z]+$/.test(t[i]))) {
+          // console.log(!(/^[a-zA-Z]+$/.test(t[i])));
+          // console.log(t[i]);
+          block.validator = null;
+          // if program find any non-alphabetical functions, it breaks out the loop because program is not allowing a single non-alphabetical word.
+          break;
+        }
+      }
+    }
+    let i = 1;
     // execute until file reaches end
     while (logs.length > 0) {
-      // .shift() function removes first element(line in this case) from logs data and return the element.
-      // Meaning, it grabs first line of the log code and use it and discard it at the end so that program does not use the previous line
-      // Almost same as iterating all the lines of data, but discard at the end
-      const log = logs.shift();
+      
+      
+      process.stdout.write(`  working: ${i}\r`);
+      i = i + 1;
+      /**  
+       * .shift() function removes first element(line in this case) from logs data and return the element.
+       * Meaning, it grabs first line of the log code and use it and discard it at the end so that program does not use the previous line
+       * Almost same as iterating all the lines of data, but discard at the end
+       * ---------------                                                                                   --------------
+       * | asdfb sdf   |  ==> shift removes this line, uses, and discards at the end. ==> Transcation ==>  | arwefre er |
+       * | arwefre er  |                                                                                   --------------
+       * ---------------
+       */
+     const log = logs.shift();
 
       /**  
        * If line starts with 'S, which is starting point + has /mpocket/wallet/signup, we know this is the starting point of the block that we have to check
        * Those values are checklist that we have to check
        * Only saves fully checked list of block to save; if there is a single missing information in block, data will not be saved and return empty array
        * Continue is a trigger that stops loop if any of filtering is activated because once we find a single informaiton from line, we do not need to loop through
-       * 
-       * 
        */
       if (log.startsWith(startPoint) && log.includes(url)) {
+        // creating empty object to start with new block
         block = {};
-        block.start = log;
+        block.start = log.replace(/\r/, "");
         block.uid = null;
         block.wid = null;
         block.words = null;
@@ -158,14 +240,39 @@ function validateFile(filename) {
         continue;
       }
       
+      /**  
+       * If line has endingPoint('E) with desire url and have all the values in
+       * fill up the block.end with value and push the full block into array
+       */
+      if (log.startsWith(endPoint) && log.includes(url)) {
+        // if statement won't get passed if value is null.
+        if (block && block.uid && block.wid && block.words && block.validator) {
+          block.end = log.replace(/\r/, "");
+          // blocks will be inserted into DB
+          
+          blocks.push(block);
+          //console.log(block);
+          // con.query(`INSERT IGNORE INTO  parsing.validatelog (uid, wid, words, validator) VALUES (${block.uid}, ${block.wid}, ${block.words}, ${block.validator})`);
+          
+        }
+        // emptying the block so that program can filter and fill up the value
+        block = null;
+        continue;
+      } 
       
       if (block && log.includes('uid')) {
+        // if there is value, don't fill up the block.
         if (block.uid === null) {
-          // this line will print out 2023, because it will grab the any matched word characters
-          // block.uid = log.match(/\w+/)[0];
-          // however, /'\w+'/, which is wrapped by single quote '', will print out any matched word characters that is wrapped by single quote
-          block.uid = log.match(/'\w+'/)[0];
-        }
+          /**
+           * Log : [2023/02/27 01:15:16.618] [DEBUG] uid [ '1000001' ]
+           * block.uid = log.match(/\w+/)[0];
+           * This line will print out 2023, because it will grab the any matched word characters
+           * However, /'\w+'/, which is wrapped by single quote '', will print out any matched word characters that is wrapped by single quote
+           */
+          const t = log.match(/'\w+'/)[0];
+          block.uid = t.replace(/\r/, "");
+        } else if(block.uid == 'undefined') {   continue;   }
+
         continue;
       }
 
@@ -178,36 +285,88 @@ function validateFile(filename) {
         } 
         continue;
       }
-
-                                                            //////////////////////////// START FROM HERE ////////////////////////////////////////////////////
-      // should I set a flag and if current line is passed, should I make the flag into true and bring the next line right here to grab the list of the words and print out??
-      if (block && log.includes('words')) {
+      
+      // words......
+      if (block && log.includes('G] words [')) {
         if (block.words === null) {
-          const wordsStart = log.indexOf('words');
-          block.words = log.slice(wordsStart);
-        }
-        continue;
-      }
+          //console.log(log);
 
+          // words [ '{"words" :: filters out values less than 12. If value is 12 words, list of words goes to next time.
+          if(!log.includes(' words \[ \'\{\"words\"')) {
+              // console.log("hh?");
+              // filters and make the block into null if filter out non-alphabetial word is found.
+              
+              // Because I am using shift() that removes first line and discard, the first element of array is next line of words, which is list of words.
+              // For example, array {1,2,3,4} ==> array.shift() ==> while { array{2,3,4}, array[0] = 2   }
+              block.words = logs[0].replace(/\r/, "");
+              // console.log(block.words);
+              // breaks down list of words into word pieces so that I can filter out the non-alphabeltical languages.
+              let t = block.words.replace(/  \'/, "").replace(/\'/, "").split(",");
+              // words":[
+              if(t[0].includes('words\"\:\[')) {
+                // console.log("ggg")
+                t = JSON.parse(t);
+                t = t.words;
+              }
+              // filters and make the block into null if filter out non-alphabetial word is found.
+              filterNonAlphabetFromWordList(t);  
+            }        
+          }
+          continue;
+      }
+          
+      // console.log(block);
+      
+
+      /**
+       *   Exception : [2023/03/02 03:13:25.759] [DEBUG] validator [ '{"words":["program","SAS"]}' ]
+       *      -- format is different, so it won't print out
+       *      -- OG format : [2023/02/27 02:01:47.378] [DEBUG] validator [ 'Drive,override' ] 
+       */
+      // 왜 안들어오지??? ==> words 필터링 할때 먼저 걸려븜..
+      // console.log(block);
+      // console.log(log);
+      // if(log.startsWith('{')) { log = JSON.parse(log)}
+      // console.log("__ " + log);
       if (block && log.includes('validator')) {
         if (block.validator === null) {
           const validatorStart = log.indexOf('[ ');
-          block.validator = log.slice(validatorStart).replace('\r', "").replace('[ \'', "").replace('\' \]', "");
-        }
+          block.validator = log.slice(validatorStart).replace(/\r/, "").replace('[ ', "").replace(' \]', "");
+          // console.log(block.validator);
+          t = block.validator.replace(/'/g, '').split(",");
+          // words":[
+          // if value is in array format
+          // [2023/03/02 03:00:51.053] [DEBUG] validator [ '{"words":["program","SAS"]}' ]
+          if(t[0].includes('words\"\:\[')) {  
+            // console.log(t + " dddddddddddddddddddddddddddddddd");
+            t = JSON.parse(t);
+            t = t.words;
+            // console.log(t);
+          }
+          filterNonAlphabetFromValidator(t);
+        } 
         continue;
       }
 
-      if (log.startsWith(endPoint) && log.includes(url)) {
-        if (block && block.uid && block.wid && block.words && block.validator) {
-          block.end = log;
-          blocks.push(block);
-        }
-        block = null;
-        continue;
-      } 
-    }
+    } // while
 
-    console.log(blocks);
+    //  console.log(blocks);
+     
+
+     
+    /**
+     * creating a new file using appendFIle.
+     * By runnig this file, whatever the file name inputted will be created
+     * null ==> filter parameter; but I am not filtering out anything here
+     * 2 ==> space parameter; gives 2 second to give space between objects
+     */
+     fs.appendFile('parsedFile.log', JSON.stringify((blocks), null, 2), function(err) {
+      if(err) throw err;
+      console.log('A file is now created using the inputted file name');
+      console.log(blocks.length); // 216
+    });
+    
+
   });
 }
 
