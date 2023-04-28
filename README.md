@@ -52,7 +52,8 @@ This program reads non-formalized sign up log file and parse successful log.
   - aka. this is grabage file for QA for myself to figure out more about log info
 - tester.js
   - Grabage file to test out small parts before I edit my OG code.
-  - 
+
+- Log files are not provided but successful format is provided above with random dummy data I manually put in
 <br /><br />
 
 - Parsing flowchart
