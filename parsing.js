@@ -132,7 +132,30 @@
  *                          - Do not save all the blocks into array because it's going to create maxed out process when program holds large amount of info
  *                          - When program try to put those large info into DB, it is possible for DB to shut down because of the amount of info
  *      
- *  - April 28, 2023: - 
+ *  - April 28, 2023: - EndPoint : - Wait 0.1 second after inserting info to DB and then empty block after insertion.
+ *                        - Array is delete
+ *                        - sleepAfterDB      : [async] takes two parameters(time, message) sleeps for set seconds. Being called after insertion in insertDBThenSleep
+ *                        - appendFile        : [async] append successful block into file asynchronously. Being called after sleepAfterDB in insertDBThenSleep
+ *                        - insertDBThenSleep : [async] insert successful block into DB asynchronously. After all, makes block into null to start over. Being called in EndPoint
+                          * sleepAfterDB, appendFile, inserDBThenSleep is declared outside of endpoint but being called.
+                      - Issue : solved (v)
+                                - With small log file, it seemed like blocks are being saved asynchronously but it was because the log file was too small.
+                                - Because the file was synchronous, DB and File insertion could not stop current thread
+                                    - insertion had to wait for the execution to be done
+                                      - option 1   : block the thread and make it wait until insertion, but it can create "stuck"  
+                                      - option 2(v): using sleep function I created, pause the program and insert then resume
+                                          ==> validateFile, sleepAfterDB, appendFile, insertDBThenSleep -> asychronous await Promise.
+                      - current version is now append data into file and insert data into DB asychronously.
+                      - performance.now() ==> 1   sec : Time taken: 505885.0176999569ms
+                                          ==> 0.1 sec : Time taken: 324405.4876000881ms
+                      - Failed to get CPU usage.
+
+ * IMPORTANT : - blocks.push(block); from StartPoint needs to be commented out if you don't need to put values into file or output the list of blocks.
+ *             - To appendFile : fs.appendFile() at the end of file needs to be activated.
+ *             - dd.log : test file with small log
+ *             - metapocket-dev-out.log : actual log that will run after testing is done.
+ * 
+ *                    
  
  */
 
@@ -149,6 +172,9 @@ const url = '/mpocket/wallet/signup';
 const fileNameOG = 'metapocket-dev-out.log';
 const startPoint = "  \'S";
 const endPoint = "  \'E";
+let countBlock = 0;
+
+
 
 
 // creating connection to 'Dictrionary' database from workbench
@@ -159,23 +185,59 @@ const con = mysql.createConnection({
   database: 'parsing'  
 });
 
+async function sleepAfterDB(milliseconds, msg) {
+  await new Promise((resolve, reject) => {
+    let start = new Date().getTime();
+    console.log(msg);
+    while (new Date().getTime() - start < milliseconds);
+    resolve();
+  });
+}
+
+async function appendFIle(block) {
+  await new Promise((resolve, reject) => {
+    fs.appendFile('parsedFile_v3.log', JSON.stringify((block), null, 2), function(err) {
+      if(err) throw err;
+      // console.log(`Block ${++countBlock}  : A block is now created in new file, moving on to next`);
+      // process.stdout.write(`Block ${++countBlock}  : A block is now created in new file, moving on to next\r`); 
+      resolve();
+    });
+  });
+}
+async function insertDBThenSleep (block, sleep, msg) {
+  // console.log("hhhueeehueuee");
+  await new Promise((resolve, reject) => {
+    con.query(`INSERT IGNORE INTO  parsing.validatelog (uid, wid, words, validator) VALUES (${block.uid}, ${block.wid}, '${block.words}', '${block.validator}')`, (err, result) => {
+      if (err) reject(err);
+      console.log(`                                          Block ${++countBlock}  ${msg}\r`);
+      sleepAfterDB(`${sleep}`, "Data Inserted : Waiting for 1 second... ");
+      appendFIle(block);
+      // console.log(block);
+      block = null;
+      // console.log(block);
+      resolve();
+    });
+  })
+  
+  
+}
+
 
 /**
  * It opens file and filters out
  * 
  */
-function validateFile(filename) {
-  fs.readFile(filename, 'utf8', (err, data) => {
-    // file open file.
-    if (err) {
-      console.error("File is not correctly opened. Either check file name or file path: " + err);
-      return;
-    }
+async function validateFile(filename) {
+  try {
+    const start = performance.now();
+
+    const data = await fs.promises.readFile(filename, 'utf8');
+
     // split the file data into lines of array to check each lines 
     const logs = data.split('\n');
-    
+
     // empty array block to save logs into array format to set up flags for checklist 
-    const blocks = [];
+    // const blocks = [];
     let block = null;
 
 
@@ -205,6 +267,7 @@ function validateFile(filename) {
      * 
      */
     function filterNonAlphabetFromValidator(t) {
+      
       // console.log("qqqqqqqqq " + t);
       // Trying to filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
       for (let i = 0; i < t.length; i++) {
@@ -225,10 +288,13 @@ function validateFile(filename) {
     let i = 1;
     // execute until file reaches end
     while (logs.length > 0) {  
-      
+
+
+      // console.log(block);
+      // process.stdout.write(`                                                   working: ${i}\r`);
       // checking console that program actually running because the log file is really big.
       // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-      process.stdout.write(`:      working: ${i}\r`);
+      
       // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       i = i + 1;
       /**  
@@ -271,18 +337,32 @@ function validateFile(filename) {
         // if statement won't get passed if value is null.
         if (block && block.uid && block.wid && block.words && block.validator) {
           block.end = log.replace(/\r/, "");
+ 
+          
           // blocks will be inserted into DB
-          
-          blocks.push(block);
-          //console.log(block);
-          
-          con.query(`INSERT IGNORE INTO  parsing.validatelog (uid, wid, words, validator) VALUES (${block.uid}, ${block.wid}, '${block.words}', '${block.validator}')`);
+         
+          // console.log("block is now empty, waited 10 seconds now. Moving on to next block");
 
+          //blocks.push(block);
+          //console.log(block);
+          //console.log(blocks.length);
+
+
+          // 왜 첫번째꺼 넣고서 안되지??.. 
+          
+
+            await insertDBThenSleep(block, 100, "Inserted to DB");
+
+          
+
+          // emptying block after insertion so that new block can come.
+         
+
+          // if block is not fulfilled but endpoint comes, block needs to be emptyed because not fulfilled block is failed block
         }
-        // emptying the block so that program can filter and fill up the value
-        block = null;
         continue;
-      } 
+        
+      }  
       
       else if (block && log.includes('uid')) {
         // if there is value, don't fill up the block.
@@ -302,8 +382,6 @@ function validateFile(filename) {
             block.uid = t.replace(/\r/, "");
           }
         }
-        
-        
 
         continue;
       }
@@ -415,6 +493,7 @@ function validateFile(filename) {
     } // while
 
       // console.log(blocks);
+      // console.log(countBlock);
      
 
     /**
@@ -423,18 +502,27 @@ function validateFile(filename) {
      * null ==> filter parameter; but I am not filtering out anything here
      * 2 ==> space parameter; gives 2 second to give space between objects
      */
-     fs.appendFile('parsedFile_v2.log', JSON.stringify((blocks), null, 2), function(err) {
-      if(err) throw err;
-      console.log('A file is now created using the inputted file name');
-       console.log(blocks.length); // 216
-    });
+
+    
+    console.log("THE END");
+    const end = performance.now();
+    console.log(`Time taken: ${end - start}ms`);  
+
     
 
-  });
+  } catch(err) {
+    console.error('File is not correctly opened. Either check file name or file path: ' + err);
+  }
 }
 
 con.connect(function(err) {
   if (err) throw err;
-
-  validateFile(fileName);
+  
+  validateFile(fileName).then(() => {
+    console.log(":))");
+  }).catch((err) => {
+    console.log(":((" + err);
+  })
+  
+  
 });
