@@ -7,7 +7,7 @@ This program reads non-formalized sign up log file and parse successful log
 - Copyright (c) 2023 DASverse
 - IDE    : VSCode
 - DB     : MySQL using workbench
-- Date   : 2023-04-21
+- Date   : 2023-04-21 ~ 2023-04-28
 - Author : Tae Jin Kim
 
 
