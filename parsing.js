@@ -18,35 +18,35 @@
  *                          'S ===================== 3001. POST /mpocket/wallet/signup ====================='
                                 ]
                                 [2023/04/05 09:49:44.798] [DEBUG] bid [ '5' ]
-                                [2023/04/05 09:49:44.798] [DEBUG] uid [ 'M1000178' ]
-                                [2023/04/05 09:49:44.798] [DEBUG] sid [ '65fWRXLfy1S2NEqNNksG2K' ]
+                                [2023/04/05 09:49:44.798] [DEBUG] uid [ 'M1078' ]
+                                [2023/04/05 09:49:44.798] [DEBUG] sid [ '65fWRXLNNksG2K' ]
                                 [2023/04/05 09:49:44.798] [DEBUG] first [ '1' ]
                                 [2023/04/05 09:49:44.798] [DEBUG] second [ '12' ]
                                 [2023/04/05 09:49:44.799] [DEBUG] words [
-                                '{"words":["Rwanda","SQL","Adaptive","Assistant","Garden","teal","Pizza","Savings","program","connecting","quantify","Tala"]}'
+                                '{"words":["Rwanda","SQL","Adaptive","Asnt","Garn","tel","Pizza","Savis","pram","connecting","quantify","Tala"]}'
                                 ]
                                 [2023/04/05 09:49:44.799] [DEBUG] validator [ '{"words":["Rwanda","Tala"]}' ]
-                                [2023/04/05 09:49:44.799] [LOG] splitIp [ '3.35.54.112', ' 172.31.29.18' ]
-                                [2023/04/05 09:49:44.806] [LOG] 586
-                                [2023/04/05 09:49:44.807] [LOG] BID/UID/WID :  [ '5', 'M1000178', 586 ]
-                                [2023/04/05 09:49:48.590] [DEBUG] new account :  [ '0x55A077001C4c8566d6907Ca96E30bac0c3481453' ]
-                                [2023/04/05 09:49:48.596] [DEBUG] insert ok  [ '0x55A077001C4c8566d6907Ca96E30bac0c3481453' ]
-                                [2023/04/05 09:49:48.596] [LOG] ERC20 Wallet address :  [ '0x55A077001C4c8566d6907Ca96E30bac0c3481453' ]
-                                [2023/04/05 09:49:48.603] [DEBUG] { result: 'Y', message: 'Success', code: 0, wid: 586 }
-                                [2023/04/05 09:49:48.603] [DEBUG] 3.35.54.112 [
+                                [2023/04/05 09:49:44.799] [LOG] splitIp [ '1.12.34.567', ' 172.1.1.1' ]
+                                [2023/04/05 09:49:44.806] [LOG] 456
+                                [2023/04/05 09:49:44.807] [LOG] BID/UID/WID :  [ '5', 'M1000178', 456 ]
+                                [2023/04/05 09:49:48.590] [DEBUG] new account :  [ '0x55A077006E30bac0c3481453' ]
+                                [2023/04/05 09:49:48.596] [DEBUG] insert ok  [ '0x55A077001C4c8566dbac0c3481453' ]
+                                [2023/04/05 09:49:48.596] [LOG] ERC20 Wallet address :  [ '0x55A077001C4c86E30bac0c3481453' ]
+                                [2023/04/05 09:49:48.603] [DEBUG] { result: 'Y', message: 'Success', code: 0, wid: 456 }
+                                [2023/04/05 09:49:48.603] [DEBUG] 1.102.34.567 [
                             'E ===================== 3001. POST  /mpocket/wallet/signup ====================='
                                 ]
  *              - Failed Log Example: Starts with 'S, but there is no ending with 'E and starts with 'S again for new log
  *                          'S ===================== 3005. GET /mpocket/wallet/history ====================='
                               ]
                               [2023/04/05 08:43:39.895] [DEBUG] bid [ '5' ]
-                              [2023/04/05 08:43:39.895] [DEBUG] wid [ '582' ]
-                              [2023/04/05 08:43:39.895] [DEBUG] sid [ 'Dsoxuk27gUn6kQvk7pZt8Z' ]
+                              [2023/04/05 08:43:39.895] [DEBUG] wid [ '123' ]
+                              [2023/04/05 08:43:39.895] [DEBUG] sid [ 'Dsoxuk7pZt8Z' ]
                               [2023/04/05 08:43:39.895] [DEBUG] symbol [ 'ETH' ]
                               [2023/04/05 08:43:39.896] [DEBUG] from [ '2023-03-29 00:00:00' ]
                               [2023/04/05 08:43:39.896] [DEBUG] to [ '2023-04-05 23:59:59' ]
-                              [2023/04/05 08:43:39.896] [LOG] splitIp [ '3.35.54.112', ' 172.31.32.132' ]
-                              [2023/04/05 08:43:39.897] [DEBUG] 3.35.54.112 [
+                              [2023/04/05 08:43:39.896] [LOG] splitIp [ '1.12.34.567', ' 172.1.1.1' ]
+                              [2023/04/05 08:43:39.897] [DEBUG] 1.12.34.567 [
                             'S ===================== 3003. GET /mpocket/wallet/asset ====================='
                               ]
 
@@ -62,20 +62,20 @@
  *                          ==> uid, wid, words, validator are all missing  ==> Do not save into DB
  *                            'S ===================== 3001. POST /wallet/ai/signup ====================='
                                 ]
-                                [2023/02/10 01:29:52.055] [DEBUG] email [ 'M1000001' ]
+                                [2023/02/10 01:29:52.055] [DEBUG] email [ 'M10001' ]
                                 [2023/02/10 01:29:52.056] [DEBUG] bid [ '5' ]
-                                [2023/02/10 01:29:52.056] [DEBUG] api [ 'W1KTXAV-B3PMMR0-NBN2K4F-0THATMQ' ]
-                                [2023/02/10 01:29:52.057] [DEBUG] 3.35.149.99 [ 'W1KTXAV-B3PMMR0-NBN2K4F-0THATMQ' ]
-                                [2023/02/10 01:29:52.057] [DEBUG] sec [ 'e067aeab-58ed-4a60-aaea-299106a2ad52' ]
-                                [2023/02/10 01:29:52.058] [DEBUG] signature [ 'd72cbc1e0588f6133f9bebc77bd7b3a1582544f6de1b67e587e562290a376bff' ]
-                                [2023/02/10 01:29:52.058] [DEBUG] d72cbc1e0588f6133f9bebc77bd7b3a1582544f6de1b67e587e562290a376bff
+                                [2023/02/10 01:29:52.056] [DEBUG] api [ 'W1KTXAV-B3R0-NBN4F-0TMQ' ]
+                                [2023/02/10 01:29:52.057] [DEBUG] 1.23.456.78 [ 'W1KAV-B3PM-NBN2-0THMQ' ]
+                                [2023/02/10 01:29:52.057] [DEBUG] sec [ 'e067aeab-58ed-40-aaea-296a252' ]
+                                [2023/02/10 01:29:52.058] [DEBUG] signature [ 'd72cbc1e0588f1582544f6de1b67e587e562290a376bff' ]
+                                [2023/02/10 01:29:52.058] [DEBUG] d72cbc1e0588f6133f9bebc77bd7b3a157e587e562290a376bff
                                 [2023/02/10 01:29:52.059] [DEBUG] check [ true ]
                                 [2023/02/10 01:29:52.071] [LOG] 80
                                 [2023/02/10 01:29:52.071] [LOG] reg id :  [ 80 ]
-                                [2023/02/10 01:29:54.069] [DEBUG] new account :  [ '0x4C624a78C0c5045073A3D6A18249E6ed93BC1e88' ]
-                                [2023/02/10 01:29:54.078] [DEBUG] insert ok  [ '0x4C624a78C0c5045073A3D6A18249E6ed93BC1e88' ]
-                                [2023/02/10 01:29:54.079] [LOG] address :  [ '0x4C624a78C0c5045073A3D6A18249E6ed93BC1e88' ]
-                                [2023/02/10 01:29:54.081] [DEBUG] 3.35.149.99 [
+                                [2023/02/10 01:29:54.069] [DEBUG] new account :  [ '0x4C624a78073A3D6A18249E6ed93BC1e88' ]
+                                [2023/02/10 01:29:54.078] [DEBUG] insert ok  [ '0x4C624a78C0c5045073A3D6A1BC1e88' ]
+                                [2023/02/10 01:29:54.079] [LOG] address :  [ '0x4C624a78C073A3D6A18249E6ed93BC1e88' ]
+                                [2023/02/10 01:29:54.081] [DEBUG] 1.23.456.78 [
                               'E ===================== 3001. POST /wallet/ai/signup ====================='
                                 ]  
  *              - Program will be synchronous
@@ -93,7 +93,7 @@
                                   start: "  'S ===================== 3001. POST /mpocket/wallet/signup ====================='",
                                   uid: "'1000008'",
                                   wid: '995',
-                                  words: "  'Pants,Credit,Incredible,Comoro,Analyst,copy,Music,Planner,XML,AGP,hacking,Tasty'",
+                                  words: "  'Pants,Credit,Inible,Cooro,Ast,copy,Mic,Plner,XML,AGP,haing,Tasty'",
                                   validator: 'Pants,Credit',
                                   end: "  'E ===================== 3001. POST  /mpocket/wallet/signup ====================='"
                                 }
@@ -125,6 +125,14 @@
  *                    - WID       : - Had error with getting WID, parsedFile.log ==> has wrong WID,    parsedFIle_v1.log is correct information of WID ==> 216 to 208, reduced
  *                    - parsedFile230.log is only log with uid values in to find if there is any missing inforamtion.
  *                    - Fixed undefined error ==> I thought uid value was 'undefined' but it was ==> '\'undefined\''                              (undefined ==> 'undefined')
+ * 
+ *                    = Feedback from Meeting =
+ *                      - Code needs to be more efficient
+ *                        - when front-end sends API, back-end person needs to run within minimum code to be more efficient
+ *                          - Do not save all the blocks into array because it's going to create maxed out process when program holds large amount of info
+ *                          - When program try to put those large info into DB, it is possible for DB to shut down because of the amount of info
+ *      
+ *  - April 28, 2023: - 
  
  */
 
@@ -135,6 +143,8 @@ const mysql = require('mysql');
 
 
 const fileName = 'metapocket-dev-out.log';
+// const fileName = 'dd.log';
+
 const url = '/mpocket/wallet/signup';
 const fileNameOG = 'metapocket-dev-out.log';
 const startPoint = "  \'S";
@@ -168,14 +178,18 @@ function validateFile(filename) {
     const blocks = [];
     let block = null;
 
-    // function filters out the filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
+
+    /**  
+     * function filters out the filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
+     * 
+     */
     function filterNonAlphabetFromWordList(t) {
       // console.log("qqqqqqqqq " + t);
       // Trying to filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
       for (let i = 0; i < t.length; i++) {
         block.words = t.join(',');
 
-        // if word is non-alphabetical
+        // if word is non-alphabetical, break for loop
         if (!(/^[a-zA-Z]+$/.test(t[i]))) {
           // console.log(!(/^[a-zA-Z]+$/.test(t[i])));
           // console.log(t[i]);
@@ -186,7 +200,10 @@ function validateFile(filename) {
       }
     }
 
-
+    /**  
+     * function filters out the filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
+     * 
+     */
     function filterNonAlphabetFromValidator(t) {
       // console.log("qqqqqqqqq " + t);
       // Trying to filter out non-alphabetial languages from list. To filter out, we first have to filter out all non-alphabetial format from list
@@ -204,12 +221,15 @@ function validateFile(filename) {
         }
       }
     }
+
     let i = 1;
     // execute until file reaches end
-    while (logs.length > 0) {
+    while (logs.length > 0) {  
       
-      
-      process.stdout.write(`  working: ${i}\r`);
+      // checking console that program actually running because the log file is really big.
+      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+      process.stdout.write(`:      working: ${i}\r`);
+      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       i = i + 1;
       /**  
        * .shift() function removes first element(line in this case) from logs data and return the element.
@@ -237,6 +257,9 @@ function validateFile(filename) {
         block.words = null;
         block.validator = null;
         block.end = null;
+        // first + last word == validator checking variable
+        firstVal = null;
+        lastVal = null;
         continue;
       }
       
@@ -244,7 +267,7 @@ function validateFile(filename) {
        * If line has endingPoint('E) with desire url and have all the values in
        * fill up the block.end with value and push the full block into array
        */
-      if (log.startsWith(endPoint) && log.includes(url)) {
+      else if (log.startsWith(endPoint) && log.includes(url)) {
         // if statement won't get passed if value is null.
         if (block && block.uid && block.wid && block.words && block.validator) {
           block.end = log.replace(/\r/, "");
@@ -252,15 +275,16 @@ function validateFile(filename) {
           
           blocks.push(block);
           //console.log(block);
-          // con.query(`INSERT IGNORE INTO  parsing.validatelog (uid, wid, words, validator) VALUES (${block.uid}, ${block.wid}, ${block.words}, ${block.validator})`);
           
+          con.query(`INSERT IGNORE INTO  parsing.validatelog (uid, wid, words, validator) VALUES (${block.uid}, ${block.wid}, '${block.words}', '${block.validator}')`);
+
         }
         // emptying the block so that program can filter and fill up the value
         block = null;
         continue;
       } 
       
-      if (block && log.includes('uid')) {
+      else if (block && log.includes('uid')) {
         // if there is value, don't fill up the block.
         if (block.uid === null) {
           /**
@@ -270,28 +294,38 @@ function validateFile(filename) {
            * However, /'\w+'/, which is wrapped by single quote '', will print out any matched word characters that is wrapped by single quote
            */
           const t = log.match(/'\w+'/)[0];
-          block.uid = t.replace(/\r/, "");
-        } else if(block.uid == 'undefined') {   continue;   }
+          // console.log(t);
+          if(t == '\'undefined\'') {   
+            block.uid = null;
+            continue;
+          } else {
+            block.uid = t.replace(/\r/, "");
+          }
+        }
+        
+        
 
         continue;
       }
 
-      if (block && log.includes('WID')) {
+      else if (block && log.includes('WID')) {
         if (block.wid === null) {
           // this will match one or more number + zero or more whitespace + ]
-           const t = log.match(/\d+\s*\]/)[0];
-           // by using slice, 987], program is starting outside of starting point 0 to t.length -1 ==> 9 is starting point which is 0 position, 7 is t.length-1 position where it ends
-           block.wid = t.slice(0, t.length-1);
+          // , 117 ]
+          // \s* ==> 0 or more space
+          // \d+ ==> 1 or more number
+          // [1] ==> finding the first occurance of (\d+) // number
+          const t = log.match(/,\s*(\d+)\s*\]/)[1];
+
+           block.wid = t;
         } 
         continue;
       }
-      
+
       // words......
-      if (block && log.includes('G] words [')) {
+      else if (block && log.includes('G] words [')) {
         if (block.words === null) {
           //console.log(log);
-
-          // words [ '{"words" :: filters out values less than 12. If value is 12 words, list of words goes to next time.
           if(!log.includes(' words \[ \'\{\"words\"')) {
               // console.log("hh?");
               // filters and make the block into null if filter out non-alphabetial word is found.
@@ -302,14 +336,31 @@ function validateFile(filename) {
               // console.log(block.words);
               // breaks down list of words into word pieces so that I can filter out the non-alphabeltical languages.
               let t = block.words.replace(/  \'/, "").replace(/\'/, "").split(",");
-              // words":[
+
               if(t[0].includes('words\"\:\[')) {
                 // console.log("ggg")
                 t = JSON.parse(t);
                 t = t.words;
+              } 
+              // console.log(t.length + " d");
+              // Chekcing if the length of words are 12
+              if(!(t.length == 12)) { 
+                block.words = null; 
+                continue;
               }
+
+              // console.log("pass");
               // filters and make the block into null if filter out non-alphabetial word is found.
-              filterNonAlphabetFromWordList(t);  
+              filterNonAlphabetFromWordList(t); 
+              //console.log(t[0] + " " + t[t.length-1]);
+              // console.log("pass22");
+              
+
+              // setting up value to compare first and last words with validator later
+              firstVal = t[0];
+              lastVal = t[t.length-1];
+              
+              
             }        
           }
           continue;
@@ -328,15 +379,20 @@ function validateFile(filename) {
       // console.log(log);
       // if(log.startsWith('{')) { log = JSON.parse(log)}
       // console.log("__ " + log);
-      if (block && log.includes('validator')) {
+      else if (block && log.includes('validator')) {
         if (block.validator === null) {
           const validatorStart = log.indexOf('[ ');
           block.validator = log.slice(validatorStart).replace(/\r/, "").replace('[ ', "").replace(' \]', "");
-          // console.log(block.validator);
+          // console.log(block.validator); // 'indigo,Gambia'
           t = block.validator.replace(/'/g, '').split(",");
-          // words":[
-          // if value is in array format
-          // [2023/03/02 03:00:51.053] [DEBUG] validator [ '{"words":["program","SAS"]}' ]
+          // console.log(t);
+          
+          // checking whether length of validator is 2 or not
+          if(!(t.length == 2)) { 
+            block.validator = null;
+            continue; 
+          }
+
           if(t[0].includes('words\"\:\[')) {  
             // console.log(t + " dddddddddddddddddddddddddddddddd");
             t = JSON.parse(t);
@@ -344,26 +400,33 @@ function validateFile(filename) {
             // console.log(t);
           }
           filterNonAlphabetFromValidator(t);
+          // console.log(t[0] + '\n' + t[t.length-1]);
+
+          // checking whether first and last word matches with validator value
+          if((!(t[0] == firstVal) || !(t[t.length-1] == lastVal) )) { 
+            block.validator = null;
+            continue;
+           }
         } 
+        // console.log(firstVal + "  " + lastVal);
         continue;
       }
 
     } // while
 
-    //  console.log(blocks);
+      // console.log(blocks);
      
 
-     
     /**
      * creating a new file using appendFIle.
      * By runnig this file, whatever the file name inputted will be created
      * null ==> filter parameter; but I am not filtering out anything here
      * 2 ==> space parameter; gives 2 second to give space between objects
      */
-     fs.appendFile('parsedFile.log', JSON.stringify((blocks), null, 2), function(err) {
+     fs.appendFile('parsedFile_v2.log', JSON.stringify((blocks), null, 2), function(err) {
       if(err) throw err;
       console.log('A file is now created using the inputted file name');
-      console.log(blocks.length); // 216
+       console.log(blocks.length); // 216
     });
     
 
