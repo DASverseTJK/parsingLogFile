@@ -5,7 +5,7 @@
  * IDE    : VSCode
  * DB     : MySQL using workbench
  * Date: April 21 2023
- * Description: - This program reads non-formalized sign up log file and parse successful log 
+ * Description: - This program reads non-formalized sign up log file and parse successful log and asynchronously insert successful block data into DB and file as while loop runs
  *                   Starts with   
  *                              'S ===================== 3001. POST /mpocket/wallet/signup ====================='
  *                            ]
