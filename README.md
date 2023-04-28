@@ -42,15 +42,18 @@ This program reads non-formalized sign up log file and parse successful log.
 ```
 
 - parsing.js<br /> 
+  - (Full) Async : save data as while loop runs
   - latest version that contains all you need.
   - Back up + running file after testing code
 - db_dums.js<br />
   - The file that will be tested and written on as I write code.
   - Everything happens here until testing is done and ready to push code to parsing.js
 - read.js
+  - Sync : blocks [] Array (draft 1 version)
   - Purpose of this file was grabbing all the blocks only within uid so that I can compare which uid is duplicated since number of my blocks and DB are different
   - aka. this is grabage file for QA for myself to figure out more about log info
 - tester.js
+  - (half)Async : saves at the end of while
   - Grabage file to test out small parts before I edit my OG code.
 
 - Log files are not provided but successful format is provided above with random dummy data I manually put in
@@ -117,7 +120,7 @@ This project is licensed under the [MIT license](https://opensource.org/licenses
 
 ## Contributing
 
-Contributions are welcome. Please submit a pull request or open an issue if you have any suggestions or would like to contribute.
+Purpose of this repo is for person use for future work.
 
 ## Tests
 
