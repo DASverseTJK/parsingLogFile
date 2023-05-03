@@ -60,7 +60,8 @@ This program reads non-formalized sign up log file and parse successful log.
 <br /><br />
 
 - Parsing flowchart
-![Metapocket_log_file_flowchart drawio (16)](https://user-images.githubusercontent.com/131336470/235111221-4a4da42b-a23f-4ea1-845e-e8fbe29d454d.png)
+![Metapocket_log_file_flowchart drawio](https://user-images.githubusercontent.com/131336470/235610948-485c3ef6-2947-42b5-ae67-876a57c385a7.png)
+
 
 
 
