@@ -3,8 +3,8 @@ const fs = require('fs');
 const mysql = require('mysql');
 
 
-const fileName = 'metapocket-dev-out.log';
-// const fileName = 'dd.log';
+// const fileName = 'metapocket-dev-out.log';
+const fileName = 'dum.log';
 
 const url = '/mpocket/wallet/signup';
 const fileNameOG = 'metapocket-dev-out.log';

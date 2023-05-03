@@ -1,0 +1,72 @@
+Difference on line 1:
+logDiff.log: [
+parsedFile_v3.log: {
+
+Difference on line 3:
+logDiff.log:     "uid": "M1079",
+parsedFile_v3.log:   "uid": "'M1079'",
+
+Difference on line 4:
+logDiff.log:     "wid": 456,
+parsedFile_v3.log:   "wid": "456",
+
+Difference on line 6:
+logDiff.log:     "validator": "Rwanda,Tala"
+parsedFile_v3.log:   "validator": "Rwanda,Tala",
+
+Difference on line 8:
+logDiff.log:   {
+parsedFile_v3.log: }{
+
+Difference on line 10:
+logDiff.log:     "wid": 456,
+parsedFile_v3.log:   "uid": "'M1080'",
+
+Difference on line 11:
+logDiff.log:     "words": "Rwanda,SQL,Adaptive,Asnt,Garn,tel,Pizza,Savis,pram,connecting,quantify,Tala",
+parsedFile_v3.log:   "wid": "456",
+
+Difference on line 12:
+logDiff.log:     "validator": "Rwanda,Tala"
+parsedFile_v3.log:   "words": "Rwanda,SQL,Adaptive,Asnt,Garn,tel,Pizza,Savis,pram,connecting,quantify,Tala",
+
+Difference on line 13:
+logDiff.log:   },
+parsedFile_v3.log:   "validator": "Rwanda,Tala",
+
+Difference on line 15:
+logDiff.log:     "uid": "M1081",
+parsedFile_v3.log: }{
+
+Difference on line 17:
+logDiff.log:     "words": "Rwanda,SQL,Adaptive,Asnt,Garn,tel,Pizza,Savis,pram,connecting,quantify,Tala",
+parsedFile_v3.log:   "uid": "'M1081'",
+
+Difference on line 18:
+logDiff.log:     "validator": "Rwanda,Tala"
+parsedFile_v3.log:   "wid": "456",
+
+Difference on line 19:
+logDiff.log:   },
+parsedFile_v3.log:   "words": "Rwanda,SQL,Adaptive,Asnt,Garn,tel,Pizza,Savis,pram,connecting,quantify,Tala",
+
+Difference on line 20:
+logDiff.log:   {
+parsedFile_v3.log:   "validator": "Rwanda,Tala",
+
+Difference on line 22:
+logDiff.log:     "wid": 456,
+parsedFile_v3.log: }{
+
+Difference on line 24:
+logDiff.log:     "validator": "Rwanda,Tala"
+parsedFile_v3.log:   "uid": "'M1082'",
+
+Difference on line 25:
+logDiff.log:   }
+parsedFile_v3.log:   "wid": "456",
+
+Difference on line 26:
+logDiff.log: ]
+parsedFile_v3.log:   "words": "Rwanda,SQL,Adaptive,Asnt,Garn,tel,Pizza,Savis,pram,connecting,quantify,Tala",
+

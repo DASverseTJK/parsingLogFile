@@ -2,9 +2,11 @@
  * Copyright (c) 2023 DASverse
  * File: parsing.js
  * Author: Tae Jin Kim
- * IDE    : VSCode
- * DB     : MySQL using workbench
- * Date: April 21 2023
+ * Language    : Javascript
+ * Environment : Node.js
+ * IDE         : VSCode
+ * DB          : MySQL using workbench
+ * Date: April 21 2023 ~ April 28 2023 [Status : Done]
  * Description: - This program reads non-formalized sign up log file and parse successful log and asynchronously insert successful block data into DB and file as while loop runs
  *                   Starts with   
  *                              'S ===================== 3001. POST /mpocket/wallet/signup ====================='
@@ -142,7 +144,7 @@
                                 - With small log file, it seemed like blocks are being saved asynchronously but it was because the log file was too small.
                                 - Because the file was synchronous, DB and File insertion could not stop current thread
                                     - insertion had to wait for the execution to be done
-                                      - option 1   : block the thread and make it wait until insertion, but it can create "stuck"  
+                                      - option 1(x)   : block the thread and make it wait until insertion, but it can create "stuck"  
                                       - option 2(v): using sleep function I created, pause the program and insert then resume
                                           ==> validateFile, sleepAfterDB, appendFile, insertDBThenSleep -> asychronous await Promise.
                       - current version is now append data into file and insert data into DB asychronously.
@@ -159,7 +161,6 @@
  
  */
 
-
 // import modules program needs
 const fs = require('fs');
 const mysql = require('mysql');
@@ -174,9 +175,6 @@ const startPoint = "  \'S";
 const endPoint = "  \'E";
 let countBlock = 0;
 
-
-
-
 // creating connection to 'Dictrionary' database from workbench
 const con = mysql.createConnection({
   host: 'localhost',
@@ -185,6 +183,12 @@ const con = mysql.createConnection({
   database: 'parsing'  
 });
 
+/**
+ * @param {
+ * } milliseconds 
+ * @param {*} msg 
+ * Let program sleeps for given seconds with given message after inserting data into DB
+ */
 async function sleepAfterDB(milliseconds, msg) {
   await new Promise((resolve, reject) => {
     let start = new Date().getTime();
@@ -194,6 +198,12 @@ async function sleepAfterDB(milliseconds, msg) {
   });
 }
 
+/**
+ * @param {*} block 
+ * Append data into file
+ * If file is not exist, it automatically creates a file to append
+ * If file exist and data already exist, it appends in new line starting from the end of file
+ */
 async function appendFIle(block) {
   await new Promise((resolve, reject) => {
     fs.appendFile('parsedFile_v3.log', JSON.stringify((block), null, 2), function(err) {
@@ -204,6 +214,14 @@ async function appendFIle(block) {
     });
   });
 }
+
+/**
+ * @param {*} block 
+ * @param {*} sleep 
+ * @param {*} msg 
+ * This function inserts data into DB then call sleepAfterDB and appendFile function to sleep for given secons and append data into file
+ * After inserting data block is being set for new block of data
+ */
 async function insertDBThenSleep (block, sleep, msg) {
   // console.log("hhhueeehueuee");
   await new Promise((resolve, reject) => {
@@ -218,13 +236,13 @@ async function insertDBThenSleep (block, sleep, msg) {
       resolve();
     });
   })
-  
-  
 }
 
 
 /**
- * It opens file and filters out
+ * It opens file and filters out unnecessary data, then collects only succeesful log data with only alphabetical words
+ * If checklist block is fulfilled, inserts the whole block into DB and appends into new(pervious) log file.
+ * 
  * 
  */
 async function validateFile(filename) {
@@ -287,15 +305,11 @@ async function validateFile(filename) {
 
     let i = 1;
     // execute until file reaches end
+    // continue == nextline
     while (logs.length > 0) {  
 
-
       // console.log(block);
-      // process.stdout.write(`                                                   working: ${i}\r`);
-      // checking console that program actually running because the log file is really big.
-      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-      
-      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
       i = i + 1;
       /**  
        * .shift() function removes first element(line in this case) from logs data and return the element.
@@ -337,33 +351,18 @@ async function validateFile(filename) {
         // if statement won't get passed if value is null.
         if (block && block.uid && block.wid && block.words && block.validator) {
           block.end = log.replace(/\r/, "");
- 
-          
-          // blocks will be inserted into DB
-         
           // console.log("block is now empty, waited 10 seconds now. Moving on to next block");
 
           //blocks.push(block);
           //console.log(block);
           //console.log(blocks.length);
 
-
-          // 왜 첫번째꺼 넣고서 안되지??.. 
-          
-
-            await insertDBThenSleep(block, 100, "Inserted to DB");
-
-          
-
-          // emptying block after insertion so that new block can come.
-         
-
-          // if block is not fulfilled but endpoint comes, block needs to be emptyed because not fulfilled block is failed block
+          // asychronously insert into DB while while loop runs, thens sleeps for 0.1 seconds and prints out the message
+          await insertDBThenSleep(block, 100, "Inserted to DB");
         }
         continue;
-        
       }  
-      
+      // line where program looks for line with uid 
       else if (block && log.includes('uid')) {
         // if there is value, don't fill up the block.
         if (block.uid === null) {
@@ -375,40 +374,45 @@ async function validateFile(filename) {
            */
           const t = log.match(/'\w+'/)[0];
           // console.log(t);
-          if(t == '\'undefined\'') {   
+
+          // there is some logs that contains undefined value in uid, if there is undefined value, keep the uid as null and do not insert any value
+          // same as empty string "" and string with "" character
+          if((t == '\'undefined\'') || (t == "\"\"") || (t == "")) {   
             block.uid = null;
             continue;
-          } else {
+          }
+          else {
+            // if there is no value in uid and value is not undefined, insert the value into uid
+            // since there are some uid with alphabet + number, program does not check whether uid is alphabet only or not, but you can check special characters if you want to improve program
             block.uid = t.replace(/\r/, "");
           }
         }
-
         continue;
-      }
-
+      } 
+      // line where program looks for line with wid
       else if (block && log.includes('WID')) {
         if (block.wid === null) {
-          // this will match one or more number + zero or more whitespace + ]
+
+          // this will zero or more whitespace + match one or more number + zero or more whitespace ]
           // , 117 ]
           // \s* ==> 0 or more space
           // \d+ ==> 1 or more number
           // [1] ==> finding the first occurance of (\d+) // number
+          // [2023/04/05 09:49:44.807] [LOG] BID/UID/WID :  [ '5', 'M1000178', 117 ] ==> needs 117
           const t = log.match(/,\s*(\d+)\s*\]/)[1];
 
-           block.wid = t;
+          block.wid = t;
         } 
         continue;
       }
-
-      // words......
+      // line where program looks for line with words (words list)
       else if (block && log.includes('G] words [')) {
         if (block.words === null) {
           //console.log(log);
           if(!log.includes(' words \[ \'\{\"words\"')) {
               // console.log("hh?");
-              // filters and make the block into null if filter out non-alphabetial word is found.
               
-              // Because I am using shift() that removes first line and discard, the first element of array is next line of words, which is list of words.
+              // Because I am using shift() that removes first line, use, and discard, the first element of array is next line of words, which is list of words.
               // For example, array {1,2,3,4} ==> array.shift() ==> while { array{2,3,4}, array[0] = 2   }
               block.words = logs[0].replace(/\r/, "");
               // console.log(block.words);
@@ -432,20 +436,15 @@ async function validateFile(filename) {
               filterNonAlphabetFromWordList(t); 
               //console.log(t[0] + " " + t[t.length-1]);
               // console.log("pass22");
-              
 
               // setting up value to compare first and last words with validator later
               firstVal = t[0];
               lastVal = t[t.length-1];
-              
-              
             }        
           }
           continue;
-      }
-          
+      } 
       // console.log(block);
-      
 
       /**
        *   Exception : [2023/03/02 03:13:25.759] [DEBUG] validator [ '{"words":["program","SAS"]}' ]
@@ -489,13 +488,11 @@ async function validateFile(filename) {
         // console.log(firstVal + "  " + lastVal);
         continue;
       }
-
     } // while
 
       // console.log(blocks);
       // console.log(countBlock);
      
-
     /**
      * creating a new file using appendFIle.
      * By runnig this file, whatever the file name inputted will be created
@@ -503,12 +500,9 @@ async function validateFile(filename) {
      * 2 ==> space parameter; gives 2 second to give space between objects
      */
 
-    
     console.log("THE END");
     const end = performance.now();
     console.log(`Time taken: ${end - start}ms`);  
-
-    
 
   } catch(err) {
     console.error('File is not correctly opened. Either check file name or file path: ' + err);
@@ -519,10 +513,8 @@ con.connect(function(err) {
   if (err) throw err;
   
   validateFile(fileName).then(() => {
-    console.log(":))");
+    console.log(":)");
   }).catch((err) => {
-    console.log(":((" + err);
+    console.log(":(" + err);
   })
-  
-  
 });
