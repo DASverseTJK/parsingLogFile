@@ -8,6 +8,7 @@ This program reads non-formalized sign up log file and parse successful log
 - IDE         : VSCode
 - DB          : MySQL using workbench
 - Environment : Node.js
+- Language    : JavaScript
 - Date        : 2023-04-21 ~ 2023-04-28
 - Author      : Tae Jin Kim
 
