@@ -55,9 +55,21 @@ This program reads non-formalized sign up log file and parse successful log.
 - tester.js
   - (half)Async : saves at the end of while
   - Grabage file to test out small parts before I edit my OG code.
+- findDiff.js
+  - Grab all data from DB and save into either txt/log file as JSON format to compare data in DB vs file
+    - logDiff.log will be created
+- compareDiff.js
+  - Compare old data from db_dum.js and new data from DB that was originally saved from db_dum.js
+    - Comparison is not done yet because both of file's format is different.
+    - Currently it's comparing line by line, so the difference will happen in almost every line.
+    - compareLog.log will be created (it's named as .txt file but it should be .log file)
 
 - Log files are not provided but successful format is provided above with random dummy data I manually put in
 <br /><br />
+
+- IMPORTANT :
+  - .log files are filtered in Github due to privacy of log. To create dummy log file, scroll up and see succeeful log. Failed log can be any format.
+
 
 - Parsing flowchart
 ![Metapocket_log_file_flowchart drawio](https://user-images.githubusercontent.com/131336470/235610948-485c3ef6-2947-42b5-ae67-876a57c385a7.png)
