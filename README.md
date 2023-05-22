@@ -4,7 +4,6 @@ This program reads non-formalized sign up log file and parse successful log
 # Parsing
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
-- Copyright (c) 2023 DASverse
 - IDE         : VSCode
 - DB          : MySQL using workbench
 - Environment : Node.js
